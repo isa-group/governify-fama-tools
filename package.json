@@ -1,8 +1,8 @@
 {
-  "name": "governify-csp-tools",
-  "version": "0.3.6",
-  "description": "Governify CSP Tools",
-  "homepage": "https://github.com/isa-group/governify-csp-tools",
+  "name": "governify-fama-tools",
+  "version": "0.0.1",
+  "description": "Governify FaMa Tools",
+  "homepage": "https://github.com/isa-group/governify-fama-tools",
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.4.7",
@@ -44,8 +44,7 @@
     "dockerTests": "grunt mochaTest:docker"
   },
   "keywords": [
-    "csp",
-    "minizinc"
+    "fama"
   ],
   "author": {
     "name": "ISA group",
@@ -54,8 +53,8 @@
   "license": "GPL-3.0+",
   "repository": {
     "type": "git",
-    "url": "git://github.com/isa-group/governify-csp-tools.git",
-    "github": "http://github.com/isa-group/governify-csp-tools"
+    "url": "git://github.com/isa-group/governify-fama-tools.git",
+    "github": "http://github.com/isa-group/governify-fama-tools"
   },
   "docker": {
     "url": "<docker-hub-image-url>"

@@ -1,4 +1,4 @@
-var Reasoner = require("governify-csp-tools").Reasoner;
+var Reasoner = require("governify-fama-tools").Reasoner;
 
 var cspModel = {
   "variables": [

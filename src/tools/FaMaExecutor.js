@@ -1,8 +1,8 @@
 /*!
-governify-csp-tools 0.3.6, built on: 2017-09-20
+governify-fama-tools 0.3.6, built on: 2017-09-20
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
-https://github.com/isa-group/governify-csp-tools
+https://github.com/isa-group/governify-fama-tools
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ class FaMaExecutor {
     executeMinizincFiles(promise, callback, options) {
         var prevThis = this;
         promise.then(function (goalObj) {
-            var bashCmd = "java -jar E:\\Downloads\\FamaSimpleConsole\\FamaSimpleConsole\\FaMaSimpleConsole.jar ./fama_files/" + goalObj.fileName + ".xml valid";
+            var bashCmd = "java -jar /bin/fama-shell.jar ./fama_files/" + goalObj.fileName + ".xml valid";
             require("child_process").exec(bashCmd, (error, stdout, stderr) => {
                 if (globalConfig.executor.autoRemoveFiles) {
                     prevThis.removeFileFromPromise(goalObj);
@@ -70,30 +70,10 @@ class FaMaExecutor {
         });
     }
     removeFileFromPromise(promise) {
-    }
-    getMinizincCmd(goalObj, options) {
-        var bashCmd = "";
-        var prevThis = this;
-        if (bashCmd !== "") {
-            bashCmd += " && ";
-        }
-        var echoTitle = (options && typeof options === "object" && "addEchoGoal" in options && options["addEchoGoal"] === false) ?
-            "echo \'" + goalObj.goal + ":\''" : echoTitle = "";
-        let folderPath = prevThis.config.folder.startsWith("./") ? prevThis.config.folder : "./" + prevThis.config.folder;
-        let mzn2fznCmd = "mzn2fzn " + folderPath + "/" + goalObj.fileName + ".mzn";
-        let fznGecodeCmd = "fzn-gecode " + folderPath + "/" + goalObj.fileName + ".fzn";
-        let oznCmd = "solns2out --search-complete-msg \'\' " + folderPath + "/" + goalObj.fileName + ".ozn";
-        let grepFilterBlankLines = " | grep -v \'^$\'";
-        if (/^win/.test(process.platform)) {
-            grepFilterBlankLines = "";
-        }
-        if (echoTitle !== "") {
-            bashCmd += echoTitle + " && " + mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd + grepFilterBlankLines;
-        }
-        else {
-            bashCmd += mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd + grepFilterBlankLines;
-        }
-        return bashCmd;
+        let folderPath = this.config.folder.startsWith("./") ? this.config.folder : "./" + this.config.folder;
+        fs.unlink(folderPath + "/" + promise.fileName + ".xml", () => {
+            return true;
+        });
     }
     isSatisfiable(err, sol) {
         if (err) {

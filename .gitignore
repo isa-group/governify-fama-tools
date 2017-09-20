@@ -65,7 +65,7 @@ githubCredential.json
 .vscode/
 .tscache/
 data/
-test_csp_files/
+test_fama_files/
 tscommand-11c46de0.tmp.txt
-csp_files/
-csp_test_files/
+fama_files/
+fama_test_files/

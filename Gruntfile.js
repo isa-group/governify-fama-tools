@@ -1,8 +1,8 @@
 /*!
-governify-csp-tools 0.3.6, built on: 2017-09-20
+governify-fama-tools 0.0.1, built on: 2017-09-20
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
-https://github.com/isa-group/governify-csp-tools
+https://github.com/isa-group/governify-fama-tools
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -139,7 +139,7 @@ module.exports = function (grunt) {
                 //npmtag: true, //default: no tag
                 updateVars: ['pkg'], //NOT CHANGE
                 github: {
-                    repo: "isa-group/governify-csp-tools", //SET WITH YOUR PROJECT ID
+                    repo: "isa-group/governify-fama-tools", //SET WITH YOUR PROJECT ID
                     accessTokenVar: "GITHUB_ACCESS_TOKEN", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                     usernameVar: "GITHUB_USERNAME" //SET ENVIRONMENT VARIABLE WITH THIS NAME
                 }
@@ -156,25 +156,25 @@ module.exports = function (grunt) {
 
         //USE THIS TASK FOR BUILDING AND PUSHING docker images
         dockerize: {
-            'governify-csp-tools-latest': {
+            'governify-fama-tools-latest': {
                 options: {
                     auth: {
                         email: "DOCKER_HUB_EMAIL", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                         username: "DOCKER_HUB_USERNAME", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                         password: "DOCKER_HUB_PASSWORD" //SET ENVIRONMENT VARIABLE WITH THIS NAME
                     },
-                    name: 'governify-csp-tools',
+                    name: 'governify-fama-tools',
                     push: true
                 }
             },
-            'governify-csp-tools-version': {
+            'governify-fama-tools-version': {
                 options: {
                     auth: {
                         email: "DOCKER_HUB_EMAIL", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                         username: "DOCKER_HUB_USERNAME", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                         password: "DOCKER_HUB_PASSWORD" //SET ENVIRONMENT VARIABLE WITH THIS NAME
                     },
-                    name: 'governify-csp-tools',
+                    name: 'governify-fama-tools',
                     tag: '<%= pkg.version %>',
                     push: true
                 }
