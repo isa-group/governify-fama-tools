@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.6, built on: 2017-09-11
+governify-csp-tools 0.3.6, built on: 2017-09-20
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -18,19 +18,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const CSPModelMinizincTranslator_1 = require("../translator/CSPModelMinizincTranslator");
 const fs = require("fs");
 const logger = require("../logger/logger");
 const globalConfig = require("../configurations/config");
 var Promise = require("bluebird");
-class MinizincExecutor {
+class FaMaExecutor {
     constructor(problem, option) {
-        if (typeof problem.model === "object") {
-            this.mznDocument = new CSPModelMinizincTranslator_1.default(problem.model).translate();
-        }
-        else {
-            this.mznDocument = problem.model;
-        }
+        this.famaDocument = problem.famaDocument;
         this.config = problem.config;
         if (option) {
             this.option = option;
@@ -48,7 +42,7 @@ class MinizincExecutor {
             var fileName = "problem_" + date.getTime() + "_" + random;
             let folderPath = prevThis.config.folder.startsWith("./") ? prevThis.config.folder : "./" + prevThis.config.folder;
             fs.mkdir(folderPath, () => {
-                fs.writeFile(folderPath + "/" + fileName + ".xml", prevThis.mznDocument, function (err) {
+                fs.writeFile(folderPath + "/" + fileName + ".xml", prevThis.famaDocument, function (err) {
                     if (err) {
                         reject(err);
                     }
@@ -70,7 +64,7 @@ class MinizincExecutor {
                     prevThis.removeFileFromPromise(goalObj);
                 }
                 if (callback) {
-                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout), prevThis.mznDocument);
+                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout), prevThis.famaDocument);
                 }
             });
         });
@@ -108,4 +102,4 @@ class MinizincExecutor {
         return true;
     }
 }
-exports.default = MinizincExecutor;
+exports.default = FaMaExecutor;

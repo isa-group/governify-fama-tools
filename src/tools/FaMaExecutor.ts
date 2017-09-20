@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
-import CSPModelMinizincTranslator from "../translator/CSPModelMinizincTranslator";
 import Problem from "../model/reasoner/Problem";
 
 const fs = require("fs");
@@ -26,20 +25,14 @@ const logger = require("../logger/logger");
 const globalConfig = require("../configurations/config");
 var Promise = require("bluebird");
 
-export default class MinizincExecutor {
+export default class FaMaExecutor {
 
-    mznDocument: any;
+    famaDocument: any;
     config: any;
     option: string;
 
     constructor(problem: Problem, option?: string) {
-        if (typeof problem.model === "object") {
-            this.mznDocument = new CSPModelMinizincTranslator(problem.model).translate();
-        } else {
-            // Suppose a MiniZinc document
-            this.mznDocument = problem.model;
-        }
-
+        this.famaDocument = problem.famaDocument;
         this.config = problem.config;
 
         if (option) {
@@ -69,7 +62,7 @@ export default class MinizincExecutor {
             let folderPath = prevThis.config.folder.startsWith("./") ? prevThis.config.folder : "./" + prevThis.config.folder;
 
             fs.mkdir(folderPath, () => {
-                fs.writeFile(folderPath + "/" + fileName + ".xml", prevThis.mznDocument, function (err: any) {
+                fs.writeFile(folderPath + "/" + fileName + ".xml", prevThis.famaDocument, function (err: any) {
                     if (err) {
                         reject(err);
                     } else {
@@ -110,7 +103,7 @@ export default class MinizincExecutor {
                 }
 
                 if (callback) {
-                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout), prevThis.mznDocument);
+                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout), prevThis.famaDocument);
                 }
 
             });

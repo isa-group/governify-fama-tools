@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.6, built on: 2017-09-11
+governify-csp-tools 0.3.6, built on: 2017-09-20
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -29,8 +29,8 @@ class Reasoner {
     set config(config) {
         this._config = config;
     }
-    solve(cspModel, callback) {
-        let problem = new Problem_1.default(cspModel, this.config);
+    solve(famaDocument, callback) {
+        let problem = new Problem_1.default(famaDocument, this.config);
         problem.getSolution(callback);
     }
 }

@@ -18,8 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
-import MinizincExecutor from "../../tools/MinizincExecutor";
-import CSPModel from "../csp/CSPModel";
+import FaMaExecutor from "../../tools/FaMaExecutor";
 
 const logger = require("../../logger/logger");
 var request = require("request");
@@ -27,7 +26,7 @@ var yaml = require("js-yaml");
 
 export default class Problem {
 
-    constructor(public model: CSPModel, public config: any) { }
+    constructor(public famaDocument: string, public config: any) { }
 
     getSolution(callback: () => void) {
         if (this.config.type === "api") {
@@ -43,14 +42,18 @@ export default class Problem {
 
     private getLocalSolution(callback: () => void) {
         console.log("Executing on local");
-        new MinizincExecutor(this).execute(callback);
+        new FaMaExecutor(this).execute(callback);
     }
 
     private getDockerSolution(callback: () => void) {
         console.log("Executing on docker");
-        new MinizincExecutor(this, "docker").execute(callback);
+        new FaMaExecutor(this, "docker").execute(callback);
     }
 
+    /**
+     * Use this method to solve a problem from a different designer module docker container.
+     * @param callback
+     */
     private getRemoteSolution(callback: (error: any, stdout?: string, stderr?: string, isSatisfiable?: boolean, document?: string) => void) {
         console.log("Executing on remote");
         process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0"; // insecure
@@ -58,7 +61,7 @@ export default class Problem {
             url: this.config.api.server + "/api/" + this.config.api.version + "/" + this.config.api.operationPath,
             method: "POST",
             json: [{
-                content: yaml.safeDump(this.model)
+                content: this.famaDocument
             }]
         }, (error, res, body) => {
             process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "1";

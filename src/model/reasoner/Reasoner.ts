@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
 import Problem from "./Problem";
-import CSPModel from "../csp/CSPModel";
 
 export default class Reasoner {
 
@@ -38,10 +37,10 @@ export default class Reasoner {
     }
 
     /**
-     * Solve a CSP problem and return string solution
+     * Solve a FaMa problem and return string solution
      */
-    solve(cspModel: CSPModel, callback: () => void) {
-        let problem: Problem = new Problem(cspModel, this.config);
+    solve(famaDocument: string, callback: () => void) {
+        let problem: Problem = new Problem(famaDocument, this.config);
         problem.getSolution(callback);
     }
 }

@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.6, built on: 2017-09-11
+governify-csp-tools 0.3.6, built on: 2017-09-20
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -18,13 +18,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const MinizincExecutor_1 = require("../../tools/MinizincExecutor");
+const FaMaExecutor_1 = require("../../tools/FaMaExecutor");
 const logger = require("../../logger/logger");
 var request = require("request");
 var yaml = require("js-yaml");
 class Problem {
-    constructor(model, config) {
-        this.model = model;
+    constructor(famaDocument, config) {
+        this.famaDocument = famaDocument;
         this.config = config;
     }
     getSolution(callback) {
@@ -43,11 +43,11 @@ class Problem {
     }
     getLocalSolution(callback) {
         console.log("Executing on local");
-        new MinizincExecutor_1.default(this).execute(callback);
+        new FaMaExecutor_1.default(this).execute(callback);
     }
     getDockerSolution(callback) {
         console.log("Executing on docker");
-        new MinizincExecutor_1.default(this, "docker").execute(callback);
+        new FaMaExecutor_1.default(this, "docker").execute(callback);
     }
     getRemoteSolution(callback) {
         console.log("Executing on remote");
@@ -56,7 +56,7 @@ class Problem {
             url: this.config.api.server + "/api/" + this.config.api.version + "/" + this.config.api.operationPath,
             method: "POST",
             json: [{
-                    content: yaml.safeDump(this.model)
+                    content: this.famaDocument
                 }]
         }, (error, res, body) => {
             process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "1";
