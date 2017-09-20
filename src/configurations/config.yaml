@@ -1,0 +1,45 @@
+production:
+  loglevel: info
+  logfile: '../logs'
+  executor:
+    autoRemoveFiles: true
+  translator:
+    typeMap:
+      binary: string # not valid on MiniZinc
+      bool: 'bool'
+      boolean: 'bool'
+      byte: string # not valid on MiniZinc
+      date: string # not valid on MiniZinc
+      date-time: string # not valid on MiniZinc
+      double: float
+      float: float
+      int32: int
+      int64: int
+      integer: int
+      number: float
+      password: string # not valid on MiniZinc
+      string: string # not valid on MiniZinc
+    modSuffix: '2'
+
+development:
+  loglevel: debug
+  logfile: '../logs'
+  executor:
+    autoRemoveFiles: false
+  translator:
+    typeMap:
+      binary: string # not valid on MiniZinc
+      bool: 'bool'
+      boolean: 'bool'
+      byte: string # not valid on MiniZinc
+      date: string # not valid on MiniZinc
+      date-time: string # not valid on MiniZinc
+      double: float
+      float: float
+      int32: int
+      int64: int
+      integer: int
+      number: float
+      password: string # not valid on MiniZinc
+      string: string # not valid on MiniZinc
+    modSuffix: '2'
